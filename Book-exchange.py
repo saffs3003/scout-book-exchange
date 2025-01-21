@@ -119,7 +119,7 @@ try:
         #update assigned_books_set for this run
         assigned_books_set.add(selected_book_id)
 
-        print(f"Assigned book to {p}: {library[selected_book_id].name} (Book ID: {selected_book_id})")
+       # print(f"Assigned book to {p}: {library[selected_book_id].name} (Book ID: {selected_book_id})")
 
 
     #booksAssigned into dict
@@ -160,8 +160,9 @@ try:
     data.to_csv("BookAssigned.csv")
 
     print("<---completed-->\n")
-    AssignedBooks="C:/Users/saffi/OneDrive/Desktop/scout-book-exchange/BookAssigned.csv"
-    History="C:/Users/saffi/OneDrive/Desktop/scout-book-exchange/AssignedHistroy.csv"
+
+    AssignedBooks="BookAssigned.csv"
+    History="AssignedHistory.csv"
 
     print(f'Assigned Books File : {AssignedBooks} \n')
     print(f'Histroy of Assigned Books File : {History}\n')
