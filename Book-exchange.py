@@ -58,19 +58,22 @@ try:
 
     #Read the Assigned Histroy of a People
     assignedHistory_df = Read_Csv('AssignedHistory.csv')
+    print(assignedHistory_df)
 
 
     #if Empty make a set for each person
     if assignedHistory_df.empty:
-        assignedHistory = {p: [] for p in person}  
-    else:
-        ##set personName as index 
-        ##select AssignedBooks column 
-        ## convert the string dta into list
-        assignedHistory = assignedHistory_df.set_index('PersonName')['AssignedBooks'].apply(
-            lambda x: ast.literal_eval(x) if isinstance(x, str) else []
-        ).to_dict()#convert the result into a dictionary
+    # Assign books sequentially from books.csv to people.csv
+        assignedHistory = {p: [books.index[i]] for i, p in enumerate(person[:len(books)])}
 
+
+        print(f'Assigned History: {assignedHistory}')
+        print(f'Assigned History DF: {assignedHistory_df}')
+    else:
+    # Convert AssignedBooks string column to list
+        assignedHistory = assignedHistory_df.set_index('PersonName')['AssignedBooks'].apply(
+        lambda x: ast.literal_eval(x) if isinstance(x, str) else []
+    ).to_dict()  # Convert the result into a dictionary
 
 
     #add books to library
@@ -100,7 +103,7 @@ try:
         
         #if all possible Books has been read/assigned 
         if not available_books:
-            print(f'All possible books combinations reached for {p}. Resetting the assignment history...')
+           # print(f'All possible books combinations reached for {p}. Resetting the assignment history...')
             assignedHistory[p] = []  
             #clear the set
             assigned_books_set.clear()  
@@ -119,7 +122,7 @@ try:
         #update assigned_books_set for this run
         assigned_books_set.add(selected_book_id)
 
-        print(f"Assigned book to {p}: {library[selected_book_id].name} (Book ID: {selected_book_id})")
+        #print(f"Assigned book to {p}: {library[selected_book_id].name} (Book ID: {selected_book_id})")
 
 
     #booksAssigned into dict
@@ -159,12 +162,12 @@ try:
     assignedHistory_df.to_csv("AssignedHistory.csv", index=False)
     data.to_csv("BookAssigned.csv")
 
-    print("<---completed-->\n")
+    #print("<---completed-->\n")
     AssignedBooks="C:/Users/saffi/OneDrive/Desktop/scout-book-exchange/BookAssigned.csv"
     History="C:/Users/saffi/OneDrive/Desktop/scout-book-exchange/AssignedHistroy.csv"
 
-    print(f'Assigned Books File : {AssignedBooks} \n')
-    print(f'Histroy of Assigned Books File : {History}\n')
+    #print(f'Assigned Books File : {AssignedBooks} \n')
+    #print(f'Histroy of Assigned Books File : {History}\n')
 
 #open excel file
     if os.path.exists(AssignedBooks):
